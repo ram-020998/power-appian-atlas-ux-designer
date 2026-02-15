@@ -37,6 +37,37 @@ Each application contains:
 5. `search_objects(app, name, "Interface")` → find specific forms/views
 6. Map user journeys across interfaces
 
+## Enrichment tools for UX designers (NEW)
+7. `search_by_tags(app, tags)` → find UI patterns:
+   - `["dashboard"]` → find all dashboard interfaces
+   - `["form_interface"]` → find data entry forms
+   - `["read_only"]` → find view-only interfaces
+8. `search_by_depth(app, 0)` → find entry points (what users see first)
+9. `get_object_enrichment(app, uuid)` → check interface complexity and dependencies
+
+## Phase 1 efficiency tools for UX designers (NEW) 🆕
+10. `get_statistics(app, stat_type, filters)` → instant UI inventory
+    - `"tag_distribution"` → count dashboards, forms, reports
+    - `"type_distribution"` → count interfaces vs other objects
+    - `"bundle_complexity"` → find most complex user flows
+11. `smart_query(app, query_type, **params)` → quick UI discovery
+    - `"find_and_load_bundle"` → find and load interface in one call
+    - `"count_by_tag"` → count specific UI types instantly
+12. `batch_get(app, operation, identifiers)` → load multiple interfaces for comparison
+    - `operation="objects"` → compare multiple interface structures
+    - `operation="enrichments"` → check complexity of multiple UIs
+
+**Use enrichment for**:
+- **UI inventory**: Find all dashboards, forms, and reports
+- **User journey mapping**: Start with entry points (depth 0) and trace flows
+- **Consistency audit**: Find similar UI patterns across the application
+- **Complexity assessment**: Identify complex interfaces that may need simplification
+
+**Use Phase 1 tools for**:
+- **Quick counts**: "How many dashboards do we have?"
+- **Pattern discovery**: Find all forms or read-only views
+- **Comparison**: Load multiple interfaces to check consistency
+
 # Response Guidelines
 
 ## When discussing interfaces:
@@ -390,6 +421,35 @@ User: "What's the user flow for the Add Vendors feature?"
    - Button placement and styling
    - Progressive disclosure (conditional sections)
 3. Suggest improvements for better UX
+```
+
+## Workflow 6: Quick UI inventory (NEW - Phase 1) 🆕
+```
+1. get_statistics("App", "tag_distribution")
+   → Instant count: X dashboards, Y forms, Z read-only views
+2. smart_query("App", "count_by_tag", tags=["dashboard"])
+   → Count dashboards with sample list
+3. Use for UI audit planning and documentation
+```
+
+## Workflow 7: Pattern consistency audit (NEW - Phase 1) 🆕
+```
+1. search_by_tags("App", ["form_interface"])
+   → Find all data entry forms
+2. batch_get("App", "objects", [uuid1, uuid2, ...])
+   → Load multiple forms in one call
+3. Compare SAIL structure for consistency
+4. Document patterns and variations
+```
+
+## Workflow 8: User journey optimization (NEW - Phase 1) 🆕
+```
+1. smart_query("App", "find_and_load_bundle", query="<feature_name>")
+   → Load entry point in one call
+2. get_statistics("App", "bundle_complexity")
+   → Identify complex user flows
+3. Focus optimization on high-complexity journeys
+4. Simplify flows with many steps or objects
 ```
 
 ---
